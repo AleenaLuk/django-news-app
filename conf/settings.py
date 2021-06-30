@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+
 import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,16 +38,43 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
-    #local
+
+    # 3rd party
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # local
     'accounts.apps.AccountsConfig',
     'api.apps.ApiConfig',
+    'frontend.apps.FrontendConfig',
+
+    # #local
+    # 'rest_framework',
+    # 'rest_framework.authtoken',
+    # 'rest_auth',
+    # 'accounts.apps.AccountsConfig',
+    # 'api.apps.ApiConfig',
 ]
+
+REST_FRAMEWORK = {
+      'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+      ],
+      'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+      ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -129,6 +158,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SITE_ID = 1
+
 AUTH_USER_MODEL = 'accounts.User'
 #managing file
 #https://docs.djangoproject.com/en/3.2/topics/files/
@@ -137,3 +168,6 @@ STATICFLES_DIRS = (os.path.join(BASE_DIR, 'frontend/static/build/static'),)
 REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend/static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+REACT_APP_DIRECTORY = 'django-insecure-383j=3l8uuo05jh7=%zti)bjc4h*=(=#(ad1flf&#mg5)ik1&k'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
